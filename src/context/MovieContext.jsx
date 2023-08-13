@@ -7,7 +7,8 @@ const MovieContext = createContext();
 
 export const MovieContextProvider = ({children}) => {
     const [moviesList, setMoviesList] = useState([]);
-    const [watchList, setWatchList] = useState([])
+    const [watchList, setWatchList] = useState([]);
+    const [query,setQuery] = useState('')
 
     const addToWatchList = (movieID) => {
         const movie = moviesList?.find(({id}) => id === movieID);
@@ -18,6 +19,10 @@ export const MovieContextProvider = ({children}) => {
     const removeFromWatchList = (movieID) => {
         const movies = watchList?.filter(({id}) => id !== movieID);
         setWatchList(movies)
+    }
+
+    const handleQueryChange = (e) => {
+        setQuery(e?.target?.value)
     }
 
     const addNewMovie = (e, movieData, setShowForm) => {
@@ -36,7 +41,9 @@ export const MovieContextProvider = ({children}) => {
         watchList : watchList,
         addToWatchList,
         removeFromWatchList,
-        addNewMovie
+        handleQueryChange,
+        addNewMovie,
+        query : query
     }
 
     return(

@@ -5,7 +5,7 @@ import AddMovieForm from './AddMovieForm';
 import Watchlist from './Watchlist';
 
 const Movies = () => {
-    const {moviesList, addToWatchList, removeFromWatchList, watchList} = useData();
+    const {moviesList, addToWatchList, removeFromWatchList, watchList, query} = useData();
     const [selectedGenre, setSelectedGenre] = useState("")
     const [selectedYear, setSelectedYear] = useState(0)
     const [selectedRating, setSelectedRating] = useState(0)
@@ -18,6 +18,7 @@ const Movies = () => {
     const filteredMovies =  moviesList?.filter((movie) => selectedGenre ? movie.genre.includes(selectedGenre) : true)
                             ?.filter(({year}) => selectedYear ? Number(year) === Number(selectedYear) : true )
                             ?.filter(({rating}) => selectedRating ? Number(rating) === Number(selectedRating) : true)
+                            ?.filter(({title}) => title.toLowerCase()?.includes(query?.toLowerCase()))
     
     const formRef = useRef();
     
