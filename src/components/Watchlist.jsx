@@ -1,9 +1,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
+import "../App.css";
 import { useData } from '../context/MovieContext';
 
 const Watchlist = () => {
-    const {watchList, addToWatchList} = useData();
+    const {watchList, addToWatchList, removeFromWatchList, moviesList} = useData();
+    console.log(watchList)
   return (
     <div>
         <h2>watchList</h2>
@@ -12,13 +14,19 @@ const Watchlist = () => {
         ) : (
             <ul className='movies__lists'>
             {watchList?.map((movie) => (
-                <Link key={movie.id} className='movies__list'>
-                    <img src={movie.imageURL} alt={`poster of movie ${movie.title}`}/>
-                    <h3>{movie.title}</h3>
-                    <p>{movie.summary}</p>
-
-                    {watchList?.find(({id}) => id === movie?.id ? <button onClick={() => addToWatchList(movie)}>remove from watchlist</button> : <button onClick={() => addToWatchList(movie)}>add to watchlist</button> )}
-                </Link>
+                <>
+                    <li  key={movie.id} className='movies__list'>
+                        <Link to={`/movies/${movie?.id}`}>
+                            <img src={movie.imageURL} alt={`poster of movie ${movie.title}`}/>
+                            <h3>{movie.title}</h3>
+                            <p>{movie.summary}</p>
+                        </Link>
+                         
+                            <button onClick={() => removeFromWatchList(movie?.id)}>remove from watchlist</button> 
+                            
+                        
+                    </li>
+                </>
             ))}
         </ul>
         )}

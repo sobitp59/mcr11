@@ -5,7 +5,7 @@ import AddMovieForm from './AddMovieForm';
 import Watchlist from './Watchlist';
 
 const Movies = () => {
-    const {moviesList, addToWatchList, watchList} = useData();
+    const {moviesList, addToWatchList, removeFromWatchList, watchList} = useData();
     const [selectedGenre, setSelectedGenre] = useState("")
     const [selectedYear, setSelectedYear] = useState(0)
     const [selectedRating, setSelectedRating] = useState(0)
@@ -61,11 +61,21 @@ const Movies = () => {
         {/* MOVIES LISTS */}
         <ul className='movies__lists'>
             {filteredMovies?.map((movie) => (
-                <Link to={`/movies/${movie?.id}`} key={movie.id} className='movies__list'>
-                    <img src={movie.imageURL} alt={`poster of movie ${movie.title}`}/>
-                    <h3>{movie.title}</h3>
-                    <p>{movie.summary}</p>
-                </Link>
+                <>
+                    <li  key={movie.id} className='movies__list'>
+                        <Link to={`/movies/${movie?.id}`}>
+                            <img src={movie.imageURL} alt={`poster of movie ${movie.title}`}/>
+                            <h3>{movie.title}</h3>
+                            <p>{movie.summary}</p>
+                        </Link>
+                        {  
+                            watchList?.find(({id}) => id === movie?.id) ? 
+                            <button onClick={() => removeFromWatchList(movie?.id)}>remove from watchlist</button> :
+                            <button onClick={() => addToWatchList(movie?.id)}>add to watchlist</button>
+                        }
+                        
+                    </li>
+                </>
             ))}
         </ul>
 

@@ -9,8 +9,15 @@ export const MovieContextProvider = ({children}) => {
     const [moviesList, setMoviesList] = useState([]);
     const [watchList, setWatchList] = useState([])
 
-    const addToWatchList = (movie) => {
-        setWatchList(prev => [...prev, movie])
+    const addToWatchList = (movieID) => {
+        const movie = moviesList?.find(({id}) => id === movieID);
+        console.log(movie)
+        setWatchList((prev) => [...prev, movie])
+    }
+    
+    const removeFromWatchList = (movieID) => {
+        const movies = watchList?.filter(({id}) => id !== movieID);
+        setWatchList(movies)
     }
 
     const addNewMovie = (e, movieData, setShowForm) => {
@@ -28,6 +35,7 @@ export const MovieContextProvider = ({children}) => {
         moviesList : moviesList,
         watchList : watchList,
         addToWatchList,
+        removeFromWatchList,
         addNewMovie
     }
 

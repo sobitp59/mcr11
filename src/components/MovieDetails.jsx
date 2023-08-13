@@ -4,11 +4,9 @@ import { useData } from '../context/MovieContext';
 
 const MovieDetails = () => {
     const {movieID} = useParams();
-    const {moviesList} = useData();
+    const {moviesList, watchList, removeFromWatchList, addToWatchList} = useData();
 
-    // const movie = moviesList?.find(({id}) => id === Number(movieID));
     const movie = moviesList?.find(({id}) => id === movieID);
-    // console.log(movie.title)
     const {id,cast, director, genre,imageURL, rating, summary, title, year, writer } = movie ?? {};
     console.log(movie)
   return (
@@ -23,6 +21,11 @@ const MovieDetails = () => {
             <p><strong>genre :</strong>{genre?.join(", ")}</p>
             <p><strong>released in : </strong>{year}</p>
             <p><strong>movieDooby rating: </strong>{rating}</p>
+            {  
+                            watchList?.find(({id}) => id === movie?.id) ? 
+                            <button onClick={() => removeFromWatchList(movie?.id)}>remove from watchlist</button> :
+                            <button onClick={() => addToWatchList(movie?.id)}>add to watchlist</button>
+                        }
         </section>
 
     </div>
