@@ -13,6 +13,12 @@ export const MovieContextProvider = ({children}) => {
         setWatchList(prev => [...prev, movie])
     }
 
+    const addNewMovie = (e, movieData, setShowForm) => {
+        e.preventDefault();
+        setMoviesList((prev) => [...prev, movieData])
+        setShowForm(false)
+    }
+
 
     useEffect(() => {
         setMoviesList(movies)
@@ -21,7 +27,8 @@ export const MovieContextProvider = ({children}) => {
     const values = {
         moviesList : moviesList,
         watchList : watchList,
-        addToWatchList
+        addToWatchList,
+        addNewMovie
     }
 
     return(

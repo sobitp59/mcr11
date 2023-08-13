@@ -1,7 +1,9 @@
 import React, { useState } from 'react';
 import { v4 as uuidv4 } from 'uuid';
+import { useData } from '../context/MovieContext';
 
 const AddMovieForm = ({setShowForm, formRef}) => {
+    const {addNewMovie} = useData();
     const [newMovie, setNewMovie] = useState({
         id : uuidv4(),
         title : '',
@@ -17,14 +19,13 @@ const AddMovieForm = ({setShowForm, formRef}) => {
 
     const onFormChangeHandler = (e) => {
         const {name, value} = e?.target;
+        console.log(name)
         if(name === 'cast'){
-            setNewMovie(prev => ({...prev, cast : value?.split(',')}))
-        } 
-        if(name === 'genre'){
-            setNewMovie(prev => ({...prev, genre : value?.split(',')}))
-        } 
-        
-        setNewMovie((prev) => ({...prev, [name] : value}))
+            console.log(value.split(","))
+            setNewMovie(prev => ({...prev, cast : value?.trim()?.split(",")}))
+        } else if(name === 'genre'){
+            setNewMovie(prev => ({...prev, genre : value?.trim()?.split(",")}))
+        }else setNewMovie((prev) => ({...prev, [name] : value}))
     }
 
     const handleFormSubmit = (e) => {
@@ -38,7 +39,7 @@ const AddMovieForm = ({setShowForm, formRef}) => {
             <h3>add new movie</h3>
             <button onClick={() => setShowForm(false)}>discard</button>
         </section>
-        <form className='form__inputs' onSubmit={handleFormSubmit}>
+        <form className='form__inputs' onSubmit={(e) => addNewMovie(e, newMovie, setShowForm)}>
             <label>
                 enter movie name
                 <input name='title' onChange={onFormChangeHandler} type="text" />
@@ -62,7 +63,7 @@ const AddMovieForm = ({setShowForm, formRef}) => {
             <label>
                 enter movie genre
                 <p>* separate the genre by , </p>
-                <input name='genre' type="text" />
+                <input name='genre' type="text" onChange={onFormChangeHandler}/>
             </label>
 
             <label>
@@ -78,7 +79,7 @@ const AddMovieForm = ({setShowForm, formRef}) => {
             <label>
                 enter movie cast
                 <p>* separate the cast by , </p>
-                <input name='cast' type="text" />
+                <input name='cast' type="text"onChange={onFormChangeHandler}/>
             </label>
 
             <label>
